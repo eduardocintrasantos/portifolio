@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfólio de Eduardo — Desenvolvedor Backend Java com Spring Boot">
+  <title>Eduardo | Backend Java Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <nav class="nav container">
+      <a href="#home" class="nav__logo">&lt;Eduardo /&gt;</a>
+      <button class="nav__toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav__menu" id="nav-menu">
+        <li><a href="#home" class="nav__link active">Home</a></li>
+        <li><a href="#tecnologias" class="nav__link">Tecnologias</a></li>
+        <li><a href="#sobre" class="nav__link">Sobre</a></li>
+        <li><a href="#projetos" class="nav__link">Projetos</a></li>
+        <li><a href="#contato" class="nav__link nav__link--cta">Contato</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- HOME -->
+    <section class="hero section" id="home">
+      <div class="container hero__grid">
+        <div class="hero__content">
+          <p class="hero__greeting">Olá, eu sou</p>
+          <h1 class="hero__title">Eduardo</h1>
+          <p class="hero__subtitle">Desenvolvedor Backend Java</p>
+          <p class="hero__description">
+            Construo APIs robustas, seguras e escaláveis com Java e Spring Boot.
+            Foco em arquitetura, lógica de negócio e integração com bancos de dados.
+          </p>
+
+          <div class="hero__actions">
+            <a href="#projetos" class="btn btn--primary">Ver projetos</a>
+            <a href="#tecnologias" class="btn btn--outline">Tecnologias</a>
+            <a href="#contato" class="btn btn--outline">Entrar em contato</a>
+          </div>
+
+          <div class="hero__social">
+            <a href="https://github.com/eduardocintrasantos" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub
+            </a>
+            <a href="https://www.linkedin.com/in/eduardo-cintra-dos-santos-4316bb180/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 114.127 0 2.065 2.065 0 01-2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              LinkedIn
+            </a>
+            <a href="mailto:eduardocintradossantos@gmail.com" class="social-link" aria-label="E-mail">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
+              E-mail
+            </a>
+          </div>
+        </div>
+
+        <div class="hero__visual">
+          <div class="code-block">
+            <div class="code-block__header">
+              <span class="dot dot--red"></span>
+              <span class="dot dot--yellow"></span>
+              <span class="dot dot--green"></span>
+              <span class="code-block__filename">Developer.java</span>
+            </div>
+            <pre class="code-block__body"><code><span class="kw">public class</span> <span class="cls">Developer</span> {
+  <span class="kw">private final</span> <span class="cls">String</span> name = <span class="str">"Eduardo"</span>;
+  <span class="kw">private final</span> <span class="cls">String</span> role = <span class="str">"Backend Java"</span>;
+
+  <span class="kw">public</span> <span class="cls">String</span> <span class="fn">build</span>() {
+    <span class="kw">return</span> name + <span class="str">" → "</span> + role;
+  }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tecnologias -->
+    <section class="tech section" id="tecnologias">
+      <div class="container">
+        <h2 class="section__title">Tecnologias</h2>
+        <p class="section__subtitle">Stack utilizada no desenvolvimento deste portfólio e nos meus projetos</p>
+        <div class="tech__grid">
+          <article class="tech__card">
+            <span class="tech__icon">🎨</span>
+            <h3 class="tech__name">Frontend</h3>
+            <p class="tech__desc">HTML, CSS e JavaScript com auxílio de IA</p>
+          </article>
+          <article class="tech__card">
+            <span class="tech__icon">☕</span>
+            <h3 class="tech__name">Backend</h3>
+            <p class="tech__desc">Java + Spring Boot</p>
+          </article>
+          <article class="tech__card">
+            <span class="tech__icon">🐘</span>
+            <h3 class="tech__name">Banco de Dados</h3>
+            <p class="tech__desc">PostgreSQL</p>
+          </article>
+          <article class="tech__card">
+            <span class="tech__icon">🚀</span>
+            <h3 class="tech__name">Hospedagem</h3>
+            <p class="tech__desc">Railway</p>
+          </article>
+          <article class="tech__card">
+            <span class="tech__icon">📦</span>
+            <h3 class="tech__name">Versionamento</h3>
+            <p class="tech__desc">Git / GitHub</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOBRE MIM -->
+    <section class="about section" id="sobre">
+      <div class="container about__grid">
+        <div class="about__content">
+          <h2 class="section__title">Sobre mim</h2>
+          <p class="about__text">
+            Durante minha experiência profissional trabalhando com Flutter, percebi que me identificava mais
+            com os desafios relacionados à lógica de negócio, arquitetura e construção de APIs, o que
+            despertou meu interesse pelo desenvolvimento backend.
+          </p>
+          <p class="about__text">
+            Atualmente estou em transição de carreira, focando em Java e Spring Boot para construir
+            soluções sólidas e bem arquitetadas.
+          </p>
+
+          <ul class="about__highlights">
+            <li class="highlight">
+              <span class="highlight__icon">🎓</span>
+              <div>
+                <strong>Formação</strong>
+                <p>Engenharia de Software</p>
+              </div>
+            </li>
+            <li class="highlight">
+              <span class="highlight__icon">💼</span>
+              <div>
+                <strong>Experiência</strong>
+                <p>Desenvolvimento mobile com Flutter</p>
+              </div>
+            </li>
+            <li class="highlight">
+              <span class="highlight__icon">🏦</span>
+              <div>
+                <strong>Bootcamp Santander Java</strong>
+                <p>Formação intensiva em backend</p>
+              </div>
+            </li>
+            <li class="highlight">
+              <span class="highlight__icon">🎯</span>
+              <div>
+                <strong>Objetivo</strong>
+                <p>Migrar para desenvolvimento backend</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <aside class="about__aside">
+          <div class="about__card">
+            <h3 class="about__card-title">Hobbies</h3>
+            <ul class="hobbies">
+              <li>📖 Leitura</li>
+              <li>🎸 Ukulele</li>
+              <li>🥾 Trilhas</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- PROJETOS -->
+    <section class="projects section" id="projetos">
+      <div class="container">
+        <h2 class="section__title">Projetos</h2>
+        <p class="section__subtitle">Aplicações backend que demonstram minhas competências técnicas</p>
+
+        <div class="projects__grid">
+
+          <!-- Projeto 1 -->
+          <article class="project-card">
+            <a href="#" class="project-card__link" aria-label="Task Manager — em breve">
+              <div class="project-card__image">
+                <div class="project-card__placeholder">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <path d="M21 15l-5-5L5 21"/>
+                  </svg>
+                  <span>Imagem do projeto</span>
+                </div>
+                <span class="project-card__badge">Em breve</span>
+              </div>
+              <div class="project-card__body">
+                <h3 class="project-card__title">Task Manager (JWT)</h3>
+                <ul class="project-card__features">
+                  <li>Cadastro de usuário</li>
+                  <li>Login com JWT</li>
+                  <li>CRUD de tarefas</li>
+                  <li>Isolamento de dados por usuário</li>
+                </ul>
+                <div class="project-card__tags">
+                  <span>Spring Security</span>
+                  <span>Autorização</span>
+                  <span>PostgreSQL</span>
+                  <span>CRUD</span>
+                  <span>Relacionamentos</span>
+                </div>
+              </div>
+            </a>
+          </article>
+
+          <!-- Projeto 2 -->
+          <article class="project-card">
+            <a href="#" class="project-card__link" aria-label="Biblioteca — em breve">
+              <div class="project-card__image">
+                <div class="project-card__placeholder">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <path d="M21 15l-5-5L5 21"/>
+                  </svg>
+                  <span>Imagem do projeto</span>
+                </div>
+                <span class="project-card__badge">Em breve</span>
+              </div>
+              <div class="project-card__body">
+                <h3 class="project-card__title">Biblioteca</h3>
+                <ul class="project-card__features">
+                  <li>Busca de livros via API pública</li>
+                  <li>Visualização de informações</li>
+                  <li>Recomendação de leituras</li>
+                  <li>Persistência das recomendações</li>
+                </ul>
+                <div class="project-card__tags">
+                  <span>APIs externas</span>
+                  <span>REST</span>
+                  <span>Persistência</span>
+                  <span>CRUD</span>
+                </div>
+              </div>
+            </a>
+          </article>
+
+          <!-- Projeto 3 -->
+          <article class="project-card">
+            <a href="#" class="project-card__link" aria-label="Sistema Empresarial — em breve">
+              <div class="project-card__image">
+                <div class="project-card__placeholder">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <path d="M21 15l-5-5L5 21"/>
+                  </svg>
+                  <span>Imagem do projeto</span>
+                </div>
+                <span class="project-card__badge">Em breve</span>
+              </div>
+              <div class="project-card__body">
+                <h3 class="project-card__title">Sistema Empresarial</h3>
+                <ul class="project-card__features">
+                  <li>Cadastro de Nome, Empresa, Cidade e Cargo</li>
+                  <li>CRUD completo</li>
+                  <li>Validações de dados</li>
+                </ul>
+                <div class="project-card__tags">
+                  <span>Validações</span>
+                  <span>CRUD</span>
+                  <span>Spring Boot</span>
+                  <span>PostgreSQL</span>
+                </div>
+              </div>
+            </a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTATO -->
+    <section class="contact section" id="contato">
+      <div class="container contact__grid">
+        <div class="contact__info">
+          <h2 class="section__title">Contato</h2>
+          <p class="contact__text">
+            Tem uma oportunidade, dúvida ou quer trocar ideia sobre backend?
+            Preencha o formulário ou entre em contato pelos links abaixo.
+          </p>
+          <ul class="contact__links">
+            <li>
+              <a href="mailto:eduardocintradossantos@gmail.com" class="contact__link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
+                eduardocintradossantos@gmail.com
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/eduardocintrasantos" target="_blank" rel="noopener noreferrer" class="contact__link">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                github.com/eduardocintrasantos
+              </a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/in/eduardo-cintra-dos-santos-4316bb180/" target="_blank" rel="noopener noreferrer" class="contact__link">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 114.127 0 2.065 2.065 0 01-2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                linkedin.com/in/eduardo-cintra-dos-santos-4316bb180
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <form class="contact__form" id="contact-form" novalidate>
+          <div class="form-group">
+            <label for="name">Nome</label>
+            <input type="text" id="name" name="name" placeholder="Seu nome" required autocomplete="name">
+            <span class="form-error" id="name-error"></span>
+          </div>
+          <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" placeholder="seu@email.com" required autocomplete="email">
+            <span class="form-error" id="email-error"></span>
+          </div>
+          <div class="form-group">
+            <label for="message">Mensagem</label>
+            <textarea id="message" name="message" rows="5" placeholder="Escreva sua mensagem..." required></textarea>
+            <span class="form-error" id="message-error"></span>
+          </div>
+          <button type="submit" class="btn btn--primary btn--full">Enviar mensagem</button>
+          <p class="form-success" id="form-success" hidden>Mensagem enviada com sucesso! Entrarei em contato em breve.</p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>&copy; 2026 Eduardo. Desenvolvido com HTML, CSS e JavaScript.</p>
+      <a href="#home" class="footer__top" aria-label="Voltar ao topo">↑ Topo</a>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
