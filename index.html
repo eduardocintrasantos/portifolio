@@ -65,21 +65,10 @@
         </div>
 
         <div class="hero__visual">
-          <div class="code-block">
-            <div class="code-block__header">
-              <span class="dot dot--red"></span>
-              <span class="dot dot--yellow"></span>
-              <span class="dot dot--green"></span>
-              <span class="code-block__filename">Developer.java</span>
+          <div class="hero__photo">
+            <div class="hero__photo-frame">
+              <img src="img/Eu.jpeg" alt="Foto de Eduardo" width="360" height="450" loading="eager">
             </div>
-            <pre class="code-block__body"><code><span class="kw">public class</span> <span class="cls">Developer</span> {
-  <span class="kw">private final</span> <span class="cls">String</span> name = <span class="str">"Eduardo"</span>;
-  <span class="kw">private final</span> <span class="cls">String</span> role = <span class="str">"Backend Java"</span>;
-
-  <span class="kw">public</span> <span class="cls">String</span> <span class="fn">build</span>() {
-    <span class="kw">return</span> name + <span class="str">" → "</span> + role;
-  }
-}</code></pre>
           </div>
         </div>
       </div>
@@ -205,12 +194,7 @@
           <article class="project-card">
             <a href="https://orcamentosfaceis.com/" target="_blank" rel="noopener noreferrer" class="project-card__link" aria-label="Orçamentos Fáceis — abrir site">
               <div class="project-card__image">
-                <div class="project-card__placeholder project-card__placeholder--live">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                    <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                  </svg>
-                  <span>orcamentosfaceis.com</span>
-                </div>
+                <img src="img/orcamentosFaceis.png" alt="Captura de tela do site Orçamentos Fáceis" class="project-card__img" loading="lazy">
                 <span class="project-card__badge project-card__badge--ai">Orquestrado com IA</span>
               </div>
               <div class="project-card__body">
@@ -230,6 +214,39 @@
                   <span>Asaas</span>
                   <span>Railway</span>
                   <span>pytest</span>
+                </div>
+              </div>
+            </a>
+          </article>
+
+          <article class="project-card">
+            <a href="#" class="project-card__link" aria-label="API de Orçamento com IA — em desenvolvimento">
+              <div class="project-card__image">
+                <div class="project-card__placeholder">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/>
+                    <path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/>
+                  </svg>
+                  <span>Bootcamp Santander · DIO</span>
+                </div>
+                <span class="project-card__badge project-card__badge--next">Próximo</span>
+              </div>
+              <div class="project-card__body">
+                <h3 class="project-card__title">API de Orçamento com IA</h3>
+                <p class="project-card__note">Desafio do bootcamp — evoluir uma API que conecta IA a funções reais da aplicação, com foco em arquitetura e responsabilidades bem definidas.</p>
+                <ul class="project-card__features">
+                  <li>Recebe áudio, transcreve e interpreta a intenção do comando</li>
+                  <li>Tool Calling para criar e consultar transações financeiras</li>
+                  <li>Resposta final gerada para a usuária após executar a ação</li>
+                  <li>Endpoints REST, persistência e auditoria da API</li>
+                </ul>
+                <div class="project-card__tags">
+                  <span>Spring Boot</span>
+                  <span>Spring AI</span>
+                  <span>ChatClient</span>
+                  <span>Tool Calling</span>
+                  <span>REST API</span>
+                  <span>Transcrição de áudio</span>
                 </div>
               </div>
             </a>
