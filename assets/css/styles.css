@@ -1,6 +1,3 @@
-/* =============================================
-   Variables & Reset
-   ============================================= */
 :root {
   --color-bg: #0a0e17;
   --color-bg-alt: #111827;
@@ -12,8 +9,6 @@
   --color-accent: #3b82f6;
   --color-accent-hover: #2563eb;
   --color-accent-glow: rgba(59, 130, 246, 0.25);
-  --color-success: #22c55e;
-  --color-error: #ef4444;
 
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
@@ -22,7 +17,6 @@
   --radius-md: 12px;
   --radius-lg: 16px;
 
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
   --shadow-glow: 0 0 40px var(--color-accent-glow);
 
@@ -63,16 +57,13 @@ ul {
   list-style: none;
 }
 
-button, input, textarea {
+button {
   font: inherit;
   color: inherit;
   border: none;
   background: none;
 }
 
-/* =============================================
-   Utilities
-   ============================================= */
 .container {
   width: min(1120px, 92%);
   margin-inline: auto;
@@ -96,9 +87,6 @@ button, input, textarea {
   margin-bottom: 48px;
 }
 
-/* =============================================
-   Buttons
-   ============================================= */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -133,13 +121,6 @@ button, input, textarea {
   color: var(--color-accent);
 }
 
-.btn--full {
-  width: 100%;
-}
-
-/* =============================================
-   Header & Navigation
-   ============================================= */
 .header {
   position: fixed;
   top: 0;
@@ -222,9 +203,6 @@ button, input, textarea {
   transition: var(--transition);
 }
 
-/* =============================================
-   Hero
-   ============================================= */
 .hero {
   min-height: 100vh;
   display: flex;
@@ -312,7 +290,6 @@ button, input, textarea {
   color: var(--color-accent);
 }
 
-/* Code block */
 .code-block {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -360,9 +337,6 @@ button, input, textarea {
 .code-block__body .str { color: #86efac; }
 .code-block__body .fn { color: #fbbf24; }
 
-/* =============================================
-   Technologies
-   ============================================= */
 .tech {
   background: var(--color-bg-alt);
 }
@@ -404,9 +378,6 @@ button, input, textarea {
   color: var(--color-text-muted);
 }
 
-/* =============================================
-   About
-   ============================================= */
 .about__grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -457,6 +428,34 @@ button, input, textarea {
   color: var(--color-text-muted);
 }
 
+.highlight__meta {
+  font-family: var(--font-mono);
+  font-size: 0.78rem !important;
+  color: var(--color-accent) !important;
+  margin-top: 4px;
+}
+
+.highlight__topics {
+  margin-top: 6px;
+}
+
+.highlight__topics li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
+  line-height: 1.45;
+}
+
+.highlight__topics li::before {
+  content: '·';
+  position: absolute;
+  left: 0;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
 .about__card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -482,9 +481,6 @@ button, input, textarea {
   border-bottom: none;
 }
 
-/* =============================================
-   Projects
-   ============================================= */
 .projects {
   background: var(--color-bg-alt);
 }
@@ -556,6 +552,25 @@ button, input, textarea {
   border: 1px solid rgba(59, 130, 246, 0.3);
 }
 
+.project-card__badge--ai {
+  background: rgba(139, 92, 246, 0.15);
+  color: #a78bfa;
+  border-color: rgba(139, 92, 246, 0.35);
+}
+
+.project-card__placeholder--live span {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  opacity: 0.85;
+}
+
+.project-card__note {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-bottom: 14px;
+  line-height: 1.55;
+}
+
 .project-card__body {
   padding: 24px;
 }
@@ -602,14 +617,8 @@ button, input, textarea {
   color: var(--color-text-muted);
 }
 
-/* =============================================
-   Contact
-   ============================================= */
-.contact__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
-  align-items: start;
+.contact__content {
+  max-width: 560px;
 }
 
 .contact__text {
@@ -630,7 +639,11 @@ button, input, textarea {
   gap: 12px;
   font-size: 0.95rem;
   color: var(--color-text-muted);
-  transition: color var(--transition);
+  padding: 16px 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: color var(--transition), border-color var(--transition);
 }
 
 .contact__link svg {
@@ -641,70 +654,9 @@ button, input, textarea {
 
 .contact__link:hover {
   color: var(--color-accent);
-}
-
-.contact__form {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: 32px;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  font-size: 0.88rem;
-  font-weight: 500;
-  margin-bottom: 8px;
-}
-
-.form-group input,
-.form-group textarea {
-  width: 100%;
-  padding: 12px 16px;
-  background: var(--color-bg-alt);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  transition: border-color var(--transition);
-  resize: vertical;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-  outline: none;
   border-color: var(--color-accent);
 }
 
-.form-group input.error,
-.form-group textarea.error {
-  border-color: var(--color-error);
-}
-
-.form-error {
-  display: block;
-  font-size: 0.8rem;
-  color: var(--color-error);
-  margin-top: 6px;
-  min-height: 1.2em;
-}
-
-.form-success {
-  margin-top: 16px;
-  padding: 12px 16px;
-  background: rgba(34, 197, 94, 0.1);
-  border: 1px solid rgba(34, 197, 94, 0.3);
-  border-radius: var(--radius-sm);
-  color: var(--color-success);
-  font-size: 0.9rem;
-  text-align: center;
-}
-
-/* =============================================
-   Footer
-   ============================================= */
 .footer {
   border-top: 1px solid var(--color-border);
   padding-block: 24px;
@@ -727,13 +679,9 @@ button, input, textarea {
   color: var(--color-accent);
 }
 
-/* =============================================
-   Responsive
-   ============================================= */
 @media (max-width: 900px) {
   .hero__grid,
-  .about__grid,
-  .contact__grid {
+  .about__grid {
     grid-template-columns: 1fr;
     gap: 40px;
   }
