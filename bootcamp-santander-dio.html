@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Exercícios de POO em Java — Bootcamp Santander DIO. Encapsulamento, interfaces, repositório em memória e testes unitários.">
+  <title>Bootcamp Santander DIO · POO Java | Eduardo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+  <header class="header" id="header">
+    <nav class="nav container">
+      <a href="index.html#home" class="nav__logo">&lt;Eduardo /&gt;</a>
+      <button class="nav__toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav__menu" id="nav-menu">
+        <li><a href="index.html#home" class="nav__link">Home</a></li>
+        <li><a href="index.html#tecnologias" class="nav__link">Tecnologias</a></li>
+        <li><a href="index.html#sobre" class="nav__link">Sobre</a></li>
+        <li><a href="index.html#projetos" class="nav__link active">Projetos</a></li>
+        <li><a href="index.html#contato" class="nav__link nav__link--cta">Contato</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="project-detail">
+
+    <section class="project-detail__hero section">
+      <div class="container">
+        <a href="index.html#projetos" class="project-detail__back">← Voltar aos projetos</a>
+        <p class="project-detail__eyebrow">Bootcamp Santander · DIO · Estudos</p>
+        <h1 class="project-detail__title">Exercícios de POO em Java</h1>
+        <p class="project-detail__intro">
+          Repositório de estudos com exercícios práticos rodando no terminal. Cada desafio modela regras
+          de negócio com orientação a objetos, separação de responsabilidades e testes automatizados
+          onde faz sentido. Projeto em evolução — exercícios 1 e 3 concluídos; exercício 2 (carro) em andamento.
+        </p>
+        <div class="project-detail__actions">
+          <a href="https://github.com/eduardocintrasantos/poo-java-bootcamp-santander-dio" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+            Ver código no GitHub
+          </a>
+          <a href="#decisoes" class="btn btn--outline">Decisões técnicas</a>
+        </div>
+        <div class="project-detail__tags">
+          <span>Java</span>
+          <span>POO</span>
+          <span>Gradle</span>
+          <span>JUnit 5</span>
+          <span>HashMap</span>
+          <span>Terminal</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-detail__section section">
+      <div class="container project-detail__grid">
+        <article class="project-detail__card">
+          <h2>Como configurei o projeto</h2>
+          <p>
+            Usei <strong>Gradle</strong> como build tool, com um <code>Main.java</code> central que exibe um menu
+            e direciona para cada exercício. A camada <code>ui</code> fica responsável apenas pela interação
+            com o usuário (Scanner e menus); a lógica de negócio fica nas classes de domínio e serviço.
+          </p>
+          <pre class="project-detail__code"><code>poo-java/
+├── src/main/java/org/example/
+│   ├── Main.java                 # menu principal
+│   ├── exercicio1/
+│   │   ├── domain/ContaBancaria  # regras da conta
+│   │   └── ui/Sistema            # menu do exercício
+│   └── exercicio3/
+│       ├── dominio/              # Pet, PetMachine
+│       ├── application/          # PetShopService
+│       ├── infrastructure/       # PetRepository + em memória
+│       └── ui/Sistema
+└── src/test/java/                # testes JUnit</code></pre>
+          <p class="project-detail__run"><strong>Como rodar:</strong> entre na pasta <code>poo-java</code> e execute <code>./gradlew run</code> (ou <code>gradlew.bat run</code> no Windows).</p>
+        </article>
+
+        <article class="project-detail__card" id="exercicio-1">
+          <h2>Exercício 1 — Conta bancária</h2>
+          <p>
+            Modelei a conta como uma única classe de domínio (<code>ContaBancaria</code>) com campos privados
+            e métodos que encapsulam as regras: depósito, saque, pagamento de boleto e cálculo de cheque especial.
+          </p>
+          <ul class="project-detail__list">
+            <li><strong>Encapsulamento:</strong> saldo e cheque especial não são alterados diretamente de fora da classe.</li>
+            <li><strong>Regras no domínio:</strong> taxa de 20% ao usar cheque especial e limites de saque ficam dentro de <code>sacar()</code>, não no menu.</li>
+            <li><strong>Exceções:</strong> valores inválidos lançam <code>IllegalStateException</code>; a UI apenas captura e exibe a mensagem.</li>
+          </ul>
+          <p>
+            Isso separa <em>o que pode acontecer</em> (domínio) de <em>como o usuário interage</em> (terminal),
+            padrão que se repete em APIs REST depois.
+          </p>
+        </article>
+
+        <article class="project-detail__card" id="exercicio-3">
+          <h2>Exercício 3 — Petshop (mais completo)</h2>
+          <p>
+            Este exercício foi estruturado em camadas, mais próximo de um backend real:
+          </p>
+          <ul class="project-detail__list">
+            <li><strong>dominio:</strong> <code>Pet</code> e <code>PetMachine</code> — estado e regras da máquina de banho.</li>
+            <li><strong>application:</strong> <code>PetShopService</code> — orquestra operações sem conhecer detalhes de entrada/saída.</li>
+            <li><strong>infrastructure:</strong> persistência em memória dos pets cadastrados.</li>
+            <li><strong>ui:</strong> menu interativo que chama o service.</li>
+          </ul>
+        </article>
+
+        <article class="project-detail__card" id="decisoes">
+          <h2>Decisões técnicas</h2>
+
+          <div class="project-detail__decision">
+            <h3>Por que criei a interface <code>PetRepository</code>?</h3>
+            <p>
+              O service precisa buscar e salvar pets, mas não deve saber <em>como</em> os dados são armazenados.
+              A interface define o contrato (<code>save</code>, <code>buscarPorNome</code>, <code>listarTodos</code>);
+              hoje uso implementação em memória, amanhã poderia ser banco de dados sem alterar o service.
+              Isso é <strong>polimorfismo</strong> e inversão de dependência — base para Spring Data depois.
+            </p>
+          </div>
+
+          <div class="project-detail__decision">
+            <h3>Por que <code>HashMap</code> para simular memória?</h3>
+            <p>
+              <code>PetRepositoryEmMemoria</code> guarda os pets em um <code>Map&lt;String, Pet&gt;</code>:
+              busca por nome em O(1) e não exige banco neste estágio de estudo. O service continua dependendo
+              só da interface, não do HashMap — a lista/map fica isolada na infraestrutura.
+            </p>
+          </div>
+
+          <div class="project-detail__decision">
+            <h3>Por que constantes em <code>PetMachine</code> (e enum no exercício 2)?</h3>
+            <p>
+              Capacidades e consumos (água, shampoo, banho) são valores fixos do enunciado. Usei
+              <code>static final</code> para centralizar e evitar números mágicos espalhados no código.
+              No <strong>exercício 2 (carro)</strong>, em desenvolvimento, pretendo usar <strong>enum</strong>
+              para as marchas — estados limitados e bem definidos, onde enum deixa o código mais seguro
+              que int solto.
+            </p>
+          </div>
+
+          <div class="project-detail__decision">
+            <h3>Herança e polimorfismo — onde entram?</h3>
+            <p>
+              No exercício 3, o polimorfismo aparece via <strong>interface</strong> (<code>PetRepository</code>).
+              No exercício 2, a ideia é modelar um <strong>Veículo</strong> base e <strong>Carro</strong> com
+              herança, reutilizando comportamentos comuns e especializando regras de marcha e velocidade.
+            </p>
+          </div>
+
+          <div class="project-detail__decision">
+            <h3>Como criei o teste unitário?</h3>
+            <p>
+              Com <strong>JUnit 5</strong> em <code>PetMachineTest</code>: no <code>@BeforeEach</code> preparo
+              a máquina e um pet; no teste <code>deveDarBanhoComSucesso</code> valido que o pet fica limpo
+              e que água/shampoo foram consumidos conforme as constantes. Testo a regra de negócio direto
+              no domínio, sem passar pelo menu do terminal — assim o teste é rápido e confiável.
+            </p>
+            <pre class="project-detail__code"><code>@Test
+void deveDarBanhoComSucesso() {
+    petMachine.setPet(pet);
+    petMachine.takeAShower();
+    assertTrue(pet.isClean());
+    assertEquals(20, petMachine.getWater());
+    assertEquals(8, petMachine.getShampoo());
+}</code></pre>
+          </div>
+        </article>
+
+        <article class="project-detail__card project-detail__card--cta">
+          <h2>Código completo no GitHub</h2>
+          <p>
+            O repositório inclui os enunciados, a evolução dos exercícios e o histórico de commits.
+            Projeto local — não há deploy web; a demonstração é pelo código, pelos testes e pela execução no terminal.
+          </p>
+          <a href="https://github.com/eduardocintrasantos/poo-java-bootcamp-santander-dio" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+            Abrir repositório no GitHub
+          </a>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>&copy; 2026 Eduardo. Desenvolvido com HTML, CSS e JavaScript.</p>
+      <a href="index.html#home" class="footer__top" aria-label="Voltar ao topo">↑ Topo</a>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
