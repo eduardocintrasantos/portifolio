@@ -418,28 +418,6 @@ SELECT * FROM employees_audit ORDER BY created_at;
 \q</code></pre>
         </article>
 
-        <article class="project-detail__card" id="proximos-passos">
-          <h2>Próximos passos (em desenvolvimento)</h2>
-          <p>O CRUD e a auditoria com triggers já estão prontos. O que ainda pode evoluir:</p>
-          <ul class="project-detail__list">
-            <li><strong>Trigger de delete</strong> — registrar remoções na audit (operation <code>'D'</code>)</li>
-            <li><strong>Views</strong> — consultas agregadas ou simplificadas sobre employees e audit</li>
-            <li><strong>Stored procedures</strong> — encapsular lógica no banco</li>
-            <li><strong>Repositório no GitHub</strong> — link será adicionado aqui quando o código for publicado</li>
-          </ul>
-        </article>
-
-        <article class="project-detail__card">
-          <h2>Resumo para recrutador</h2>
-          <p>
-            Configurei um ambiente completo de persistência sem abstrações de framework:
-            container Docker com Postgres, versionamento de schema com Flyway (tabela, audit e triggers),
-            conexão JDBC centralizada, CRUD completo com <code>PreparedStatement</code> e mapeamento manual,
-            e auditoria automática no banco via triggers PL/pgSQL. A intenção é demonstrar entendimento
-            da camada de dados — SQL, migrations e regras no Postgres — antes de depender só de Spring Data JPA.
-          </p>
-        </article>
-
       </div>
     </section>
 
