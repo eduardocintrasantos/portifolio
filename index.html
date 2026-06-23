@@ -90,6 +90,11 @@
             <p class="tech__desc">Java + Spring Boot</p>
           </article>
           <article class="tech__card">
+            <span class="tech__icon">🐳</span>
+            <h3 class="tech__name">Docker</h3>
+            <p class="tech__desc">Containerização de aplicações</p>
+          </article>
+          <article class="tech__card">
             <span class="tech__icon">🐘</span>
             <h3 class="tech__name">Banco de Dados</h3>
             <p class="tech__desc">PostgreSQL</p>
@@ -220,6 +225,40 @@
           </article>
 
           <article class="project-card">
+            <a href="jdbc-sample.html" class="project-card__link" aria-label="JDBC Sample — ver detalhes">
+              <div class="project-card__image">
+                <div class="project-card__placeholder project-card__placeholder--code">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <ellipse cx="12" cy="5" rx="9" ry="3"/>
+                    <path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/>
+                    <path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"/>
+                  </svg>
+                  <span>Java · JDBC · Docker</span>
+                </div>
+                <span class="project-card__badge project-card__badge--study">Estudos</span>
+              </div>
+              <div class="project-card__body">
+                <h3 class="project-card__title">JDBC Sample — CRUD PostgreSQL</h3>
+                <p class="project-card__note">Persistência JDBC pura com Postgres no Docker, Flyway, CRUD completo e triggers de auditoria. Clique para ver configuração, SQL e decisões técnicas.</p>
+                <ul class="project-card__features">
+                  <li>PostgreSQL 16 via Docker Compose (porta 5433)</li>
+                  <li>Flyway com 4 migrations (tabela, audit e triggers)</li>
+                  <li>EmployeeDAO: insert, update, delete, findAll e findById</li>
+                  <li>Triggers AFTER INSERT/UPDATE gravando histórico em employees_audit</li>
+                </ul>
+                <div class="project-card__tags">
+                  <span>Java</span>
+                  <span>JDBC</span>
+                  <span>PostgreSQL</span>
+                  <span>Flyway</span>
+                  <span>Triggers</span>
+                  <span>Docker</span>
+                </div>
+              </div>
+            </a>
+          </article>
+
+          <article class="project-card">
             <a href="bootcamp-santander-dio.html" class="project-card__link" aria-label="Exercícios Bootcamp Santander DIO — ver detalhes">
               <div class="project-card__image">
                 <div class="project-card__placeholder project-card__placeholder--code">
@@ -252,7 +291,7 @@
             </a>
           </article>
 
-          <article class="project-card">
+          <!--<article class="project-card">
             <a href="#" class="project-card__link" aria-label="API de Orçamento com IA — em desenvolvimento">
               <div class="project-card__image">
                 <div class="project-card__placeholder">
@@ -376,7 +415,7 @@
                 </div>
               </div>
             </a>
-          </article>
+          </article>-->
 
         </div>
       </div>

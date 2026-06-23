@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Projeto JDBC com Java, PostgreSQL no Docker, Flyway, CRUD completo e triggers de auditoria — estudo de persistência sem framework.">
+  <title>JDBC Sample · PostgreSQL + Flyway | Eduardo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+  <header class="header" id="header">
+    <nav class="nav container">
+      <a href="index.html#home" class="nav__logo">&lt;Eduardo /&gt;</a>
+      <button class="nav__toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav__menu" id="nav-menu">
+        <li><a href="index.html#home" class="nav__link">Home</a></li>
+        <li><a href="index.html#tecnologias" class="nav__link">Tecnologias</a></li>
+        <li><a href="index.html#sobre" class="nav__link">Sobre</a></li>
+        <li><a href="index.html#projetos" class="nav__link active">Projetos</a></li>
+        <li><a href="index.html#contato" class="nav__link nav__link--cta">Contato</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="project-detail">
+
+    <section class="project-detail__hero section">
+      <div class="container">
+        <a href="index.html#projetos" class="project-detail__back">← Voltar aos projetos</a>
+        <p class="project-detail__eyebrow">Bootcamp Santander · DIO · Estudos</p>
+        <h1 class="project-detail__title">JDBC Sample — CRUD com PostgreSQL</h1>
+        <p class="project-detail__intro">
+          Projeto de estudo para entender JDBC na prática: banco PostgreSQL rodando no Docker,
+          schema versionado com Flyway, CRUD completo de funcionários (<code>employees</code>)
+          e auditoria automática via triggers no banco — tudo sem Spring ou ORM.
+          Feito para consulta rápida e para mostrar a recrutadores como configurei cada camada do zero.
+        </p>
+        <div class="project-detail__actions">
+          <a href="#inicio-rapido" class="btn btn--primary">Início rápido</a>
+          <a href="#crud" class="btn btn--outline">Como fiz o CRUD</a>
+          <a href="#triggers" class="btn btn--outline">Triggers de auditoria</a>
+        </div>
+        <div class="project-detail__tags">
+          <span>Java</span>
+          <span>JDBC</span>
+          <span>PostgreSQL</span>
+          <span>Flyway</span>
+          <span>Triggers</span>
+          <span>Docker</span>
+          <span>Gradle</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-detail__section section">
+      <div class="container project-detail__grid">
+
+        <article class="project-detail__card" id="inicio-rapido">
+          <h2>Início rápido</h2>
+          <p>
+            O fluxo é direto: subir o Postgres no Docker, rodar a aplicação Java e deixar o Flyway
+            criar a tabela automaticamente antes de executar o CRUD.
+          </p>
+          <ul class="project-detail__list">
+            <li><strong>1.</strong> Docker Desktop instalado e rodando</li>
+            <li><strong>2.</strong> Java 17+ (Gradle 9 exige JVM 17 ou superior)</li>
+            <li><strong>3.</strong> Na pasta do projeto, subir o banco e rodar a app (comandos abaixo)</li>
+          </ul>
+          <pre class="project-detail__code"><code># 1. Subir o banco
+docker compose up -d
+
+# 2. Executar a aplicação (migrations + CRUD)
+./gradlew run
+
+# Windows
+gradlew.bat run
+
+# Conferir se o container está ativo
+docker ps</code></pre>
+          <p class="project-detail__run">
+            <strong>Porta do banco:</strong> <code>5433</code> no host (mapeada para <code>5432</code> dentro do container).
+            Escolhi 5433 para não conflitar com um Postgres local na porta padrão.
+          </p>
+        </article>
+
+        <article class="project-detail__card" id="docker">
+          <h2>1. Docker — criar e configurar o banco</h2>
+          <p>
+            Usei <strong>Docker Compose</strong> para subir um PostgreSQL 16 com banco, usuário e senha
+            já definidos. O volume <code>postgres_data</code> persiste os dados entre reinícios do container.
+          </p>
+          <pre class="project-detail__code"><code># docker-compose.yml
+services:
+  postgres:
+    image: postgres:16
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: jdbc-sample
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 050495
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:</code></pre>
+          <ul class="project-detail__list">
+            <li><strong>POSTGRES_DB:</strong> nome do banco que a aplicação usa na URL JDBC</li>
+            <li><strong>POSTGRES_USER / POSTGRES_PASSWORD:</strong> mesmas credenciais em <code>ConnectionUnit</code> e no Flyway</li>
+            <li><strong>volume:</strong> dados não se perdem ao parar o container (<code>docker compose down</code> sem <code>-v</code>)</li>
+          </ul>
+          <p>
+            Se mudar a senha depois da primeira subida, é preciso alterar no Postgres também
+            (o volume já guardou a senha antiga):
+          </p>
+          <pre class="project-detail__code"><code>docker exec -it jdbc-sample-postgres-1 psql -U postgres \
+  -c "ALTER USER postgres WITH PASSWORD '050495';"</code></pre>
+        </article>
+
+        <article class="project-detail__card" id="dependencias">
+          <h2>2. Gradle — dependências JDBC e Flyway</h2>
+          <p>
+            No <code>build.gradle.kts</code> adicionei o driver PostgreSQL, o Flyway core e o módulo
+            específico para Postgres. O plugin <code>application</code> aponta o <code>Main</code> como entry point.
+          </p>
+          <pre class="project-detail__code"><code>plugins {
+    id("java")
+    application
+}
+
+application {
+    mainClass.set("org.example.Main")
+}
+
+dependencies {
+    implementation("org.flywaydb:flyway-core:10.11.1")
+    implementation("org.flywaydb:flyway-database-postgresql:10.11.1")
+    runtimeOnly("org.postgresql:postgresql:42.7.7")
+}</code></pre>
+        </article>
+
+        <article class="project-detail__card" id="flyway">
+          <h2>3. Flyway — migration na Main</h2>
+          <p>
+            Antes de qualquer operação JDBC, a <code>Main</code> configura o Flyway com a mesma URL do banco
+            e chama <code>migrate()</code>. O Flyway lê os arquivos em
+            <code>src/main/resources/db/migration/</code> e aplica só o que ainda não rodou.
+          </p>
+          <pre class="project-detail__code"><code>var flyway = Flyway.configure()
+        .dataSource(
+            "jdbc:postgresql://localhost:5433/jdbc-sample",
+            "postgres",
+            "050495")
+        .load();
+flyway.migrate();</code></pre>
+          <p>O Flyway aplica quatro migrations em ordem:</p>
+          <ul class="project-detail__list">
+            <li><strong>V1</strong> — tabela <code>employees</code></li>
+            <li><strong>V2</strong> — tabela <code>employees_audit</code> para histórico</li>
+            <li><strong>V3</strong> — trigger <code>AFTER INSERT</code> na <code>employees</code></li>
+            <li><strong>V4</strong> — trigger <code>AFTER UPDATE</code> na <code>employees</code></li>
+          </ul>
+          <p>A V1 cria a tabela principal:</p>
+          <pre class="project-detail__code"><code>-- V1__create_employee_table.sql
+CREATE TABLE employees (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    salary DECIMAL(10, 2) NOT NULL,
+    birthday TIMESTAMPTZ NOT NULL
+);</code></pre>
+          <p>
+            Convenção Flyway: prefixo <code>V</code> + número + <code>__</code> + descrição.
+            Cada alteração de schema vira um novo arquivo numerado — o Flyway só executa o que ainda não rodou.
+          </p>
+        </article>
+
+        <article class="project-detail__card" id="conexao">
+          <h2>4. Conexão JDBC — ConnectionUnit</h2>
+          <p>
+            Centralizei a URL, usuário e senha em uma classe utilitária com construtor privado.
+            Cada operação do DAO abre a conexão com try-with-resources e fecha automaticamente.
+          </p>
+          <pre class="project-detail__code"><code>public class ConnectionUnit {
+    private ConnectionUnit() {}
+
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(
+            "jdbc:postgresql://localhost:5433/jdbc-sample",
+            "postgres",
+            "050495");
+    }
+}</code></pre>
+          <p>
+            Em produção eu extrairia isso para variáveis de ambiente ou arquivo de configuração.
+            Aqui mantive fixo de propósito para focar no JDBC puro.
+          </p>
+        </article>
+
+        <article class="project-detail__card" id="crud">
+          <h2>5. CRUD completo — Entity + DAO</h2>
+          <p>
+            Separei a entidade (<code>EmployeeEntity</code>) da persistência (<code>EmployeeDAO</code>).
+            Sem framework: SQL escrito à mão, <code>PreparedStatement</code> com placeholders
+            (<code>?</code>) e mapeamento manual do <code>ResultSet</code>.
+            O DAO expõe cinco operações: <strong>insert</strong>, <strong>update</strong>,
+            <strong>delete</strong>, <strong>findAll</strong> e <strong>findById</strong>.
+          </p>
+
+          <h3>Estrutura do projeto</h3>
+          <pre class="project-detail__code"><code>jdbc-sample/
+├── docker-compose.yml
+├── build.gradle.kts
+├── src/main/java/org/example/
+│   ├── Main.java
+│   └── persistence/
+│       ├── ConnectionUnit.java
+│       ├── EmployeeDAO.java
+│       └── entity/EmployeeEntity.java
+└── src/main/resources/db/migration/
+    ├── V1__create_employee_table.sql
+    ├── V2__create_employee_audit_table.sql
+    ├── V3__create_trigger_insert_employee.sql
+    └── V4__create_trigger_update_employee.sql</code></pre>
+
+          <h3>Entity</h3>
+          <p>
+            Classe POJO com getters/setters para <code>id</code>, <code>name</code>, <code>salary</code>
+            e <code>birthday</code> (<code>OffsetDateTime</code> para bater com <code>TIMESTAMPTZ</code>).
+          </p>
+
+          <h3>Insert — retorna o id gerado</h3>
+          <p>
+            Uso <code>RETURNING id</code> no PostgreSQL para recuperar o <code>BIGSERIAL</code> gerado
+            e preencher o objeto em memória. Cada insert dispara o trigger de auditoria (seção 6).
+          </p>
+          <pre class="project-detail__code"><code>var sql = "INSERT INTO employees (name, salary, birthday) VALUES (?, ?, ?) RETURNING id";
+
+try (var connection = ConnectionUnit.getConnection();
+     var statement = connection.prepareStatement(sql)) {
+
+    statement.setString(1, entity.getName());
+    statement.setBigDecimal(2, entity.getSalary());
+    statement.setObject(3, entity.getBirthday());
+
+    try (var resultSet = statement.executeQuery()) {
+        if (resultSet.next()) {
+            entity.setId(resultSet.getLong("id"));
+        }
+    }
+}</code></pre>
+
+          <h3>Update</h3>
+          <p>
+            Atualiza <code>name</code>, <code>salary</code> e <code>birthday</code> pelo <code>id</code>.
+            O trigger <code>AFTER UPDATE</code> grava os valores novos e antigos na tabela de audit.
+          </p>
+          <pre class="project-detail__code"><code>var sql = "UPDATE employees SET name = ?, salary = ?, birthday = ? WHERE id = ?";
+
+statement.setString(1, entity.getName());
+statement.setBigDecimal(2, entity.getSalary());
+statement.setObject(3, entity.getBirthday());
+statement.setLong(4, entity.getId());
+statement.executeUpdate();</code></pre>
+
+          <h3>Delete</h3>
+          <pre class="project-detail__code"><code>var sql = "DELETE FROM employees WHERE id = ?";
+statement.setLong(1, id);
+statement.executeUpdate();</code></pre>
+          <p>
+            Por enquanto não há trigger de delete — o histórico de inserts e updates permanece em
+            <code>employees_audit</code> mesmo após remover o registro da tabela principal.
+          </p>
+
+          <h3>FindAll</h3>
+          <p>
+            <code>SELECT * FROM employees</code> com loop no <code>ResultSet</code>, montando uma
+            <code>List&lt;EmployeeEntity&gt;</code>. O driver PostgreSQL converte <code>TIMESTAMPTZ</code>
+            direto para <code>OffsetDateTime</code> com
+            <code>resultSet.getObject("birthday", OffsetDateTime.class)</code>.
+          </p>
+
+          <h3>FindById</h3>
+          <p>
+            Mesmo mapeamento do findAll, mas com <code>WHERE id = ?</code>. Retorna
+            <code>null</code> se o id não existir.
+          </p>
+          <pre class="project-detail__code"><code>var sql = "SELECT * FROM employees WHERE id = ?";
+statement.setLong(1, id);
+
+try (var resultSet = statement.executeQuery()) {
+    if (resultSet.next()) {
+        var entity = new EmployeeEntity();
+        entity.setId(resultSet.getLong("id"));
+        entity.setName(resultSet.getString("name"));
+        entity.setSalary(resultSet.getBigDecimal("salary"));
+        entity.setBirthday(resultSet.getObject("birthday", OffsetDateTime.class));
+        return entity;
+    }
+}
+return null;</code></pre>
+        </article>
+
+        <article class="project-detail__card" id="triggers">
+          <h2>6. Triggers de auditoria — employees_audit</h2>
+          <p>
+            A lógica de auditoria fica no banco, não no Java: sempre que um registro é inserido ou
+            alterado em <code>employees</code>, um trigger PL/pgSQL grava uma linha em
+            <code>employees_audit</code>. Assim o histórico sobrevive mesmo se a aplicação mudar.
+          </p>
+
+          <h3>Tabela de audit (V2)</h3>
+          <pre class="project-detail__code"><code>-- V2__create_employee_audit_table.sql
+CREATE TABLE employees_audit (
+    id BIGSERIAL PRIMARY KEY,
+    employee_id BIGINT NOT NULL REFERENCES employees(id),
+    name VARCHAR(150),
+    old_name VARCHAR(150),
+    salary DECIMAL(10, 2),
+    old_salary DECIMAL(10, 2),
+    birthday TIMESTAMPTZ,
+    old_birthday TIMESTAMPTZ,
+    operation CHAR(1),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);</code></pre>
+          <ul class="project-detail__list">
+            <li><strong>operation:</strong> <code>'I'</code> para insert, <code>'U'</code> para update</li>
+            <li><strong>old_*:</strong> preenchidos só no update, com os valores antes da alteração</li>
+            <li><strong>created_at:</strong> timestamp automático de quando o evento foi registrado</li>
+          </ul>
+
+          <h3>Trigger AFTER INSERT (V3)</h3>
+          <p>
+            Função <code>fn_employee_audit_insert()</code> + trigger <code>tgr_employee_audit_insert</code>.
+            Dispara após cada linha inserida em <code>employees</code>.
+          </p>
+          <pre class="project-detail__code"><code>CREATE OR REPLACE FUNCTION fn_employee_audit_insert()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO employees_audit (employee_id, name, salary, birthday, operation)
+    VALUES (NEW.id, NEW.name, NEW.salary, NEW.birthday, 'I');
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tgr_employee_audit_insert
+    AFTER INSERT ON employees
+    FOR EACH ROW
+    EXECUTE FUNCTION fn_employee_audit_insert();</code></pre>
+
+          <h3>Trigger AFTER UPDATE (V4)</h3>
+          <p>
+            Função <code>fn_employee_audit_update()</code> + trigger <code>tgr_employee_audit_update</code>.
+            Compara <code>NEW</code> e <code>OLD</code> e persiste ambos os lados na audit.
+          </p>
+          <pre class="project-detail__code"><code>CREATE OR REPLACE FUNCTION fn_employee_audit_update()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO employees_audit (
+        employee_id, name, old_name, salary, old_salary,
+        birthday, old_birthday, operation)
+    VALUES (
+        NEW.id, NEW.name, OLD.name, NEW.salary, OLD.salary,
+        NEW.birthday, OLD.birthday, 'U');
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tgr_employee_audit_update
+    AFTER UPDATE ON employees
+    FOR EACH ROW
+    EXECUTE FUNCTION fn_employee_audit_update();</code></pre>
+
+          <h3>Conferir a auditoria</h3>
+          <pre class="project-detail__code"><code>-- Após insert ou update via DAO ou SQL direto:
+SELECT id, employee_id, name, old_name, salary, old_salary, operation, created_at
+FROM employees_audit
+ORDER BY created_at;</code></pre>
+        </article>
+
+        <article class="project-detail__card" id="main">
+          <h2>7. Main — orquestrando tudo</h2>
+          <p>
+            A <code>Main</code> roda migrations, instancia o DAO e executa as operações.
+            Trechos ficam comentados para ir testando insert, listagem e delete separadamente.
+          </p>
+          <pre class="project-detail__code"><code>public static void main(String[] args) {
+    // 1. Flyway cria/atualiza schema, audit e triggers
+    var flyway = Flyway.configure()
+            .dataSource("jdbc:postgresql://localhost:5433/jdbc-sample",
+                        "postgres", "050495")
+            .load();
+    flyway.migrate();
+
+    // 2. CRUD via DAO (trechos comentados para testar insert, update, delete)
+    var employeeDAO = new EmployeeDAO();
+    employeeDAO.findAll().forEach(System.out::println);
+    // employeeDAO.findById(1);
+    // employeeDAO.delete(1);
+}</code></pre>
+        </article>
+
+        <article class="project-detail__card" id="consultar-banco">
+          <h2>Consultar dados no banco</h2>
+          <p>Para inspecionar direto no Postgres:</p>
+          <pre class="project-detail__code"><code>docker exec -it jdbc-sample-postgres-1 psql -U postgres -d jdbc-sample
+
+\dt
+SELECT * FROM employees;
+SELECT * FROM employees_audit ORDER BY created_at;
+\q</code></pre>
+        </article>
+
+        <article class="project-detail__card" id="proximos-passos">
+          <h2>Próximos passos (em desenvolvimento)</h2>
+          <p>O CRUD e a auditoria com triggers já estão prontos. O que ainda pode evoluir:</p>
+          <ul class="project-detail__list">
+            <li><strong>Trigger de delete</strong> — registrar remoções na audit (operation <code>'D'</code>)</li>
+            <li><strong>Views</strong> — consultas agregadas ou simplificadas sobre employees e audit</li>
+            <li><strong>Stored procedures</strong> — encapsular lógica no banco</li>
+            <li><strong>Repositório no GitHub</strong> — link será adicionado aqui quando o código for publicado</li>
+          </ul>
+        </article>
+
+        <article class="project-detail__card">
+          <h2>Resumo para recrutador</h2>
+          <p>
+            Configurei um ambiente completo de persistência sem abstrações de framework:
+            container Docker com Postgres, versionamento de schema com Flyway (tabela, audit e triggers),
+            conexão JDBC centralizada, CRUD completo com <code>PreparedStatement</code> e mapeamento manual,
+            e auditoria automática no banco via triggers PL/pgSQL. A intenção é demonstrar entendimento
+            da camada de dados — SQL, migrations e regras no Postgres — antes de depender só de Spring Data JPA.
+          </p>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>&copy; 2026 Eduardo. Desenvolvido com HTML, CSS e JavaScript.</p>
+      <a href="index.html#home" class="footer__top" aria-label="Voltar ao topo">↑ Topo</a>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
