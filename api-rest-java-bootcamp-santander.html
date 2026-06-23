@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="API REST com Spring Boot — Bootcamp Santander DIO. Gerenciador de tarefas, domínio, camadas e endpoints HTTP. Projeto em início.">
+  <title>API REST Spring Boot · Bootcamp Santander DIO | Eduardo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+  <header class="header" id="header">
+    <nav class="nav container">
+      <a href="index.html#home" class="nav__logo">&lt;Eduardo /&gt;</a>
+      <button class="nav__toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav__menu" id="nav-menu">
+        <li><a href="index.html#home" class="nav__link">Home</a></li>
+        <li><a href="index.html#tecnologias" class="nav__link">Tecnologias</a></li>
+        <li><a href="index.html#sobre" class="nav__link">Sobre</a></li>
+        <li><a href="index.html#projetos" class="nav__link active">Projetos</a></li>
+        <li><a href="index.html#contato" class="nav__link nav__link--cta">Contato</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="project-detail">
+
+    <section class="project-detail__hero section">
+      <div class="container">
+        <a href="index.html#projetos" class="project-detail__back">← Voltar aos projetos</a>
+        <p class="project-detail__eyebrow">Bootcamp Santander · DIO · Estudos</p>
+        <h1 class="project-detail__title">API REST — Gerenciador de tarefas</h1>
+        <p class="project-detail__intro">
+          Próxima etapa do bootcamp depois dos exercícios de POO: construir uma API REST com
+          <strong>Spring Boot</strong> para gerenciar tarefas. O repositório no GitHub já está criado;
+          a implementação ainda vai começar — esta página documenta o objetivo, a trilha do curso
+          e como pretendo organizar o projeto.
+        </p>
+        <div class="project-detail__actions">
+          <a href="https://github.com/eduardocintrasantos/api-rest-java-bootcamp-santander" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+            Ver código no GitHub
+          </a>
+          <a href="#trilha" class="btn btn--outline">Trilha do curso</a>
+          <a href="bootcamp-santander-dio.html" class="btn btn--outline">Projeto POO anterior</a>
+        </div>
+        <div class="project-detail__tags">
+          <span>Java</span>
+          <span>Spring Boot</span>
+          <span>REST API</span>
+          <span>HTTP</span>
+          <span>Gradle</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-detail__section section">
+      <div class="container project-detail__grid">
+
+        <article class="project-detail__card">
+          <h2>O que é este projeto</h2>
+          <p>
+            Enquanto os <a href="bootcamp-santander-dio.html">exercícios de POO</a> rodam no terminal,
+            esta trilha leva o mesmo tipo de regra de negócio para a web: endpoints HTTP, status codes,
+            corpo JSON e separação entre controller, serviço e domínio — agora com Spring Boot cuidando
+            do servidor embarcado, injeção de dependência e convenções REST.
+          </p>
+          <p>
+            O caso de uso central é um <strong>gerenciador de tarefas</strong>: criar, listar, consultar,
+            validar e evoluir tarefas via API, em vez de menus no <code>Scanner</code>.
+          </p>
+          <p class="project-detail__run">
+            <strong>Status:</strong> repositório criado, código ainda não iniciado. A documentação aqui
+            será atualizada conforme cada módulo do bootcamp for concluído.
+          </p>
+        </article>
+
+        <article class="project-detail__card" id="trilha">
+          <h2>Trilha do curso — módulos</h2>
+          <p>
+            A formação de API REST no bootcamp Santander · DIO segue esta sequência.
+            Conforme for avançando, marco aqui o que já está no repositório.
+          </p>
+          <ul class="project-detail__list">
+            <li><strong>Introdução ao API REST</strong> — conceitos HTTP, recursos e verbos</li>
+            <li><strong>Gerenciamento de tarefas</strong> — escopo do projeto e requisitos</li>
+            <li><strong>Modelando o domínio de tarefas</strong> — entidades e regras de negócio</li>
+            <li><strong>Orquestrando o domínio</strong> — camada de serviço / application</li>
+            <li><strong>Listagem de tarefas</strong> — endpoint GET com coleção</li>
+            <li><strong>Infraestrutura e interface</strong> — persistência e controllers REST</li>
+            <li><strong>Consulta de tarefas</strong> — busca por id e filtros</li>
+            <li><strong>Validando dados</strong> — Bean Validation e respostas de erro</li>
+            <li><strong>Documentando a API</strong> — OpenAPI / Swagger</li>
+            <li><strong>Evoluindo a API</strong> — melhorias, versionamento e boas práticas</li>
+          </ul>
+        </article>
+
+        <article class="project-detail__card" id="arquitetura">
+          <h2>Como pretendo organizar o código</h2>
+          <p>
+            A ideia é manter a mesma linha dos exercícios de POO — domínio no centro, infraestrutura
+            trocável — só que exposto por controllers Spring em vez de UI no terminal.
+          </p>
+          <pre class="project-detail__code"><code>api-rest-java-bootcamp-santander/
+├── src/main/java/.../
+│   ├── domain/           # Task, regras de negócio
+│   ├── application/      # casos de uso / orquestração
+│   ├── infrastructure/   # repositório (memória ou banco)
+│   └── web/              # controllers REST, DTOs, validação
+├── src/main/resources/
+│   └── application.properties
+└── build.gradle.kts      # Spring Boot + dependências</code></pre>
+          <ul class="project-detail__list">
+            <li><strong>Controllers:</strong> recebem HTTP, delegam ao service, devolvem JSON e status adequados</li>
+            <li><strong>Service:</strong> orquestra o domínio — equivalente ao <code>PetShopService</code> do exercício 3</li>
+            <li><strong>Domain:</strong> entidade <code>Task</code> com regras (título, status, prazo, etc.)</li>
+            <li><strong>Infrastructure:</strong> persistência — primeiro em memória ou JPA, conforme o módulo</li>
+          </ul>
+        </article>
+
+        <article class="project-detail__card" id="stack">
+          <h2>Stack prevista</h2>
+          <ul class="project-detail__list">
+            <li><strong>Java 17+</strong> e <strong>Gradle</strong></li>
+            <li><strong>Spring Boot</strong> — starter web, embedded Tomcat, DI</li>
+            <li><strong>Spring Web</strong> — <code>@RestController</code>, <code>@GetMapping</code>, <code>@PostMapping</code>, etc.</li>
+            <li><strong>Bean Validation</strong> — <code>@NotBlank</code>, <code>@Valid</code> nos DTOs de entrada</li>
+            <li><strong>Documentação</strong> — SpringDoc / OpenAPI quando chegar no módulo correspondente</li>
+          </ul>
+          <p>
+            Depois desta base REST, o bootcamp continua com Spring Data, Security e OpenFeign —
+            este repositório foca primeiro no núcleo da API de tarefas.
+          </p>
+        </article>
+
+        <article class="project-detail__card" id="proximos-passos">
+          <h2>Próximos passos</h2>
+          <ul class="project-detail__list">
+            <li><strong>Inicializar o projeto Spring Boot</strong> com Gradle e dependência web</li>
+            <li><strong>Modelar <code>Task</code></strong> e o service de gerenciamento</li>
+            <li><strong>Expor os primeiros endpoints</strong> — criação e listagem</li>
+            <li><strong>Atualizar esta página</strong> com decisões técnicas e exemplos de request/response</li>
+          </ul>
+        </article>
+
+        <article class="project-detail__card">
+          <h2>Relação com os outros projetos do bootcamp</h2>
+          <p>
+            Os exercícios de <a href="bootcamp-santander-dio.html">POO no terminal</a> treinaram encapsulamento,
+            interfaces e camadas. O <a href="jdbc-sample.html">JDBC Sample</a> mostrou persistência manual
+            e SQL no Postgres. Esta API REST junta exposição HTTP (Spring) com organização em camadas —
+            o passo natural antes de Spring Data JPA e segurança na trilha.
+          </p>
+        </article>
+
+        <article class="project-detail__card project-detail__card--cta">
+          <h2>Código no GitHub</h2>
+          <p>
+            Repositório reservado para o projeto da trilha REST. Ainda sem implementação;
+            o README e os commits vão crescer conforme os módulos forem concluídos.
+          </p>
+          <a href="https://github.com/eduardocintrasantos/api-rest-java-bootcamp-santander" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+            Abrir repositório no GitHub
+          </a>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>&copy; 2026 Eduardo. Desenvolvido com HTML, CSS e JavaScript.</p>
+      <a href="index.html#home" class="footer__top" aria-label="Voltar ao topo">↑ Topo</a>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
