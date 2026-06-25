@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Indica Livros — API REST em Spring Boot do Bootcamp Santander DIO. Busca na Google Books, indicações com PostgreSQL, Flyway e deploy com Docker.">
+  <title>Indica Livros · Spring Boot | Eduardo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+  <header class="header" id="header">
+    <nav class="nav container">
+      <a href="index.html#home" class="nav__logo">&lt;Eduardo /&gt;</a>
+      <button class="nav__toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul class="nav__menu" id="nav-menu">
+        <li><a href="index.html#home" class="nav__link">Home</a></li>
+        <li><a href="index.html#tecnologias" class="nav__link">Tecnologias</a></li>
+        <li><a href="index.html#sobre" class="nav__link">Sobre</a></li>
+        <li><a href="index.html#projetos" class="nav__link active">Projetos</a></li>
+        <li><a href="index.html#contato" class="nav__link nav__link--cta">Contato</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="project-detail">
+
+    <section class="project-detail__hero section">
+      <div class="container">
+        <a href="index.html#projetos" class="project-detail__back">← Voltar aos projetos</a>
+        <p class="project-detail__eyebrow">Bootcamp Santander · DIO · Estudos</p>
+        <h1 class="project-detail__title">Indica Livros</h1>
+        <p class="project-detail__intro">
+          Desafio de Design Patterns desenvolvido no Bootcamp Santander, na plataforma de estudos DIO.
+          API REST em Spring Boot para buscar livros na Google Books e registrar indicações com nota e motivo,
+          com frontend web integrado, PostgreSQL versionado com Flyway e deploy em produção via Docker no Railway.
+        </p>
+        <div class="project-detail__actions">
+          <a href="https://desafio-design-patterns-bootcamp-santander-dio-i-production.up.railway.app/" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+            Ver projeto online
+          </a>
+          <a href="https://github.com/eduardocintrasantos/desafio-design-patterns-bootcamp-santander-dio-indica-livro" target="_blank" rel="noopener noreferrer" class="btn btn--outline">
+            Ver código no GitHub
+          </a>
+          <a href="#stack" class="btn btn--outline">Stack e arquitetura</a>
+        </div>
+        <div class="project-detail__tags">
+          <span>Spring Boot</span>
+          <span>PostgreSQL</span>
+          <span>Flyway</span>
+          <span>Docker</span>
+          <span>Design Patterns</span>
+          <span>Railway</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-detail__section section">
+      <div class="container project-detail__grid">
+
+        <article class="project-detail__card">
+          <h2>O que é este projeto</h2>
+          <p>
+            A aplicação permite buscar livros por <strong>título</strong> ou <strong>autor</strong> usando a
+            Google Books API, selecionar um resultado e registrar uma indicação com nome, nota e motivo.
+            As indicações ficam persistidas no PostgreSQL e aparecem na listagem da interface web.
+          </p>
+          <ul class="project-detail__list">
+            <li><strong>GET</strong> <code>/livros?titulo=...</code> — busca por título</li>
+            <li><strong>GET</strong> <code>/livros?autor=...</code> — busca por autor</li>
+            <li><strong>GET</strong> <code>/indicacoes</code> — lista indicações salvas</li>
+            <li><strong>POST</strong> <code>/indicacoes</code> — cadastra nova indicação</li>
+          </ul>
+        </article>
+
+        <article class="project-detail__card" id="stack">
+          <h2>Stack e infraestrutura</h2>
+          <ul class="project-detail__list">
+            <li><strong>Spring Boot 4</strong> — API REST com controllers, services e JPA</li>
+            <li><strong>PostgreSQL</strong> — persistência de livros e indicações</li>
+            <li><strong>Flyway</strong> — migrations versionadas (<code>livro</code>, <code>indicacao</code>)</li>
+            <li><strong>Docker</strong> — Postgres local via Compose; imagem multi-stage para produção</li>
+            <li><strong>OpenFeign</strong> — cliente HTTP declarativo para a Google Books API</li>
+            <li><strong>Railway</strong> — deploy da API e do banco em produção</li>
+          </ul>
+        </article>
+
+        <article class="project-detail__card" id="decisoes">
+          <h2>Design Patterns aplicados</h2>
+
+          <div class="project-detail__decision">
+            <h3>Strategy — busca por título ou autor</h3>
+            <p>
+              A interface <code>BuscaLivroStrategy</code> define o contrato de busca; implementações separadas
+              (<code>BuscaPorTituloStrategy</code> e <code>BuscaPorAutorStrategy</code>) encapsulam a regra de
+              cada tipo. O controller escolhe a strategy conforme o parâmetro da requisição, sem duplicar lógica.
+            </p>
+          </div>
+
+          <div class="project-detail__decision">
+            <h3>Camadas e responsabilidades</h3>
+            <p>
+              Controllers expõem HTTP; services concentram regras de negócio; repositories acessam o banco via JPA;
+              DTOs transportam dados entre camadas. A integração externa fica isolada em Feign clients com configuração
+              própria para a API key da Google Books.
+            </p>
+          </div>
+        </article>
+
+        <article class="project-detail__card">
+          <h2>Estrutura do projeto</h2>
+          <pre class="project-detail__code"><code>desafio-design-patterns-bootcamp-santander-dio-indica-livro/
+├── frontend/              # interface web (HTML, CSS, JS)
+├── src/main/java/         # API Spring Boot
+├── src/main/resources/
+│   ├── application.properties
+│   └── db/migration/      # scripts Flyway
+├── compose.yaml           # PostgreSQL local
+└── Dockerfile             # build e deploy em produção</code></pre>
+        </article>
+
+        <article class="project-detail__card project-detail__card--cta">
+          <h2>Projeto online e código</h2>
+          <p>
+            A aplicação está publicada no Railway com frontend e API no mesmo domínio.
+            O repositório no GitHub inclui instruções para rodar localmente com Docker Desktop e Gradle.
+          </p>
+          <a href="https://desafio-design-patterns-bootcamp-santander-dio-i-production.up.railway.app/" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+            Abrir Indica Livros
+          </a>
+          <a href="https://github.com/eduardocintrasantos/desafio-design-patterns-bootcamp-santander-dio-indica-livro" target="_blank" rel="noopener noreferrer" class="btn btn--outline">
+            Abrir repositório no GitHub
+          </a>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>&copy; 2026 Eduardo. Desenvolvido com HTML, CSS e JavaScript.</p>
+      <a href="index.html#home" class="footer__top" aria-label="Voltar ao topo">↑ Topo</a>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
