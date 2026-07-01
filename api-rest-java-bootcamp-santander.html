@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="API REST com Spring Boot — Bootcamp Santander DIO. Gerenciador de tarefas, domínio, camadas e endpoints HTTP. Projeto em início.">
-  <title>API REST Spring Boot · Bootcamp Santander DIO | Eduardo</title>
+  <meta name="description" content="Task Manager — API REST com Spring Boot e DDD. CRUD de tarefas, use cases, repositório em memória com HashMap, sem banco de dados. Bootcamp Santander DIO.">
+  <title>Task Manager · API REST Spring Boot | Eduardo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -36,25 +36,29 @@
       <div class="container">
         <a href="index.html#projetos" class="project-detail__back">← Voltar aos projetos</a>
         <p class="project-detail__eyebrow">Bootcamp Santander · DIO · Estudos</p>
-        <h1 class="project-detail__title">API REST — Gerenciador de tarefas</h1>
+        <h1 class="project-detail__title">Task Manager — API REST</h1>
         <p class="project-detail__intro">
-          Próxima etapa do bootcamp depois dos exercícios de POO: construir uma API REST com
-          <strong>Spring Boot</strong> para gerenciar tarefas. O repositório no GitHub já está criado;
-          a implementação ainda vai começar — esta página documenta o objetivo, a trilha do curso
-          e como pretendo organizar o projeto.
+          Gerenciador de tarefas com <strong>Spring Boot</strong>, organizado em camadas
+          (<strong>domain</strong>, <strong>application</strong>, <strong>infrastructure</strong>) no estilo DDD.
+          Cada operação passa por um <strong>use case</strong> dedicado; a persistência é em memória com
+          <code>HashMap</code>, sem banco de dados — foco em praticar injeção de dependência, REST e separação
+          de responsabilidades antes de evoluir para JPA e Security na trilha.
         </p>
         <div class="project-detail__actions">
           <a href="https://github.com/eduardocintrasantos/api-rest-java-bootcamp-santander" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
             Ver código no GitHub
           </a>
-          <a href="#trilha" class="btn btn--outline">Trilha do curso</a>
-          <a href="bootcamp-santander-dio.html" class="btn btn--outline">Projeto POO anterior</a>
+          <a href="#inicio-rapido" class="btn btn--outline">Início rápido</a>
+          <a href="#endpoints" class="btn btn--outline">Endpoints</a>
+          <a href="#arquitetura" class="btn btn--outline">Arquitetura</a>
         </div>
         <div class="project-detail__tags">
           <span>Java</span>
           <span>Spring Boot</span>
           <span>REST API</span>
-          <span>HTTP</span>
+          <span>DDD</span>
+          <span>Use Cases</span>
+          <span>HashMap</span>
           <span>Gradle</span>
         </div>
       </div>
@@ -66,104 +70,192 @@
         <article class="project-detail__card">
           <h2>O que é este projeto</h2>
           <p>
-            Enquanto os <a href="bootcamp-santander-dio.html">exercícios de POO</a> rodam no terminal,
-            esta trilha leva o mesmo tipo de regra de negócio para a web: endpoints HTTP, status codes,
-            corpo JSON e separação entre controller, serviço e domínio — agora com Spring Boot cuidando
-            do servidor embarcado, injeção de dependência e convenções REST.
+            Continuação natural dos <a href="bootcamp-santander-dio.html">exercícios de POO no terminal</a>:
+            a mesma ideia de domínio no centro e repositório trocável, agora exposta por HTTP com JSON.
+            O recurso central é a <strong>Task</strong> — título, descrição opcional e status
+            (<code>PENDING</code>, <code>IN_PROGRESS</code>, <code>COMPLETED</code>).
           </p>
           <p>
-            O caso de uso central é um <strong>gerenciador de tarefas</strong>: criar, listar, consultar,
-            validar e evoluir tarefas via API, em vez de menus no <code>Scanner</code>.
-          </p>
-          <p class="project-detail__run">
-            <strong>Status:</strong> repositório criado, código ainda não iniciado. A documentação aqui
-            será atualizada conforme cada módulo do bootcamp for concluído.
+            Deliberadamente <strong>sem banco de dados</strong>: o
+            <code>InMemoryTaskRepository</code> guarda tarefas em um <code>Map&lt;TaskId, Task&gt;</code>
+            para isolar a regra de negócio da infraestrutura e praticar o contrato
+            <code>TaskRepository</code> antes de plugar Postgres ou JPA.
           </p>
         </article>
 
-        <article class="project-detail__card" id="trilha">
-          <h2>Trilha do curso — módulos</h2>
+        <article class="project-detail__card" id="inicio-rapido">
+          <h2>Início rápido</h2>
           <p>
-            A formação de API REST no bootcamp Santander · DIO segue esta sequência.
-            Conforme for avançando, marco aqui o que já está no repositório.
+            Projeto Gradle com Spring Boot. Sobe na porta padrão <code>8080</code> — sem Docker nem banco.
           </p>
           <ul class="project-detail__list">
-            <li><strong>Introdução ao API REST</strong> — conceitos HTTP, recursos e verbos</li>
-            <li><strong>Gerenciamento de tarefas</strong> — escopo do projeto e requisitos</li>
-            <li><strong>Modelando o domínio de tarefas</strong> — entidades e regras de negócio</li>
-            <li><strong>Orquestrando o domínio</strong> — camada de serviço / application</li>
-            <li><strong>Listagem de tarefas</strong> — endpoint GET com coleção</li>
-            <li><strong>Infraestrutura e interface</strong> — persistência e controllers REST</li>
-            <li><strong>Consulta de tarefas</strong> — busca por id e filtros</li>
-            <li><strong>Validando dados</strong> — Bean Validation e respostas de erro</li>
-            <li><strong>Documentando a API</strong> — OpenAPI / Swagger</li>
-            <li><strong>Evoluindo a API</strong> — melhorias, versionamento e boas práticas</li>
+            <li><strong>1.</strong> Java 25 (toolchain definida no <code>build.gradle</code>)</li>
+            <li><strong>2.</strong> Na pasta do repositório, subir a aplicação</li>
+            <li><strong>3.</strong> Testar os endpoints em <code>http://localhost:8080/tasks</code></li>
           </ul>
+          <pre class="project-detail__code"><code># Subir a API
+./gradlew bootRun
+
+# Windows
+gradlew.bat bootRun
+
+# Rodar testes
+./gradlew test</code></pre>
+          <p class="project-detail__run">
+            <strong>Exemplo — criar tarefa:</strong>
+          </p>
+          <pre class="project-detail__code"><code>curl -X POST http://localhost:8080/tasks \
+  -H "Content-Type: application/json" \
+  -d '{"title":"Estudar Spring Boot","description":"Módulo REST"}'</code></pre>
+        </article>
+
+        <article class="project-detail__card" id="endpoints">
+          <h2>Endpoints REST</h2>
+          <p>
+            Um único controller (<code>TaskController</code>) concentra todas as rotas em
+            <code>/tasks</code>. Ele recebe DTOs HTTP, converte para input da camada application
+            e devolve <code>TaskResponseDTO</code> em JSON.
+          </p>
+          <ul class="project-detail__list">
+            <li><strong>POST /tasks</strong> — cria tarefa (status inicial <code>PENDING</code>)</li>
+            <li><strong>GET /tasks</strong> — lista todas as tarefas</li>
+            <li><strong>GET /tasks/{id}</strong> — busca por UUID</li>
+            <li><strong>PATCH /tasks/{id}</strong> — atualização parcial (título, descrição e/ou status)</li>
+            <li><strong>DELETE /tasks/{id}</strong> — remove tarefa (<code>204 No Content</code>)</li>
+          </ul>
+          <pre class="project-detail__code"><code>// Resposta JSON (exemplo)
+{
+  "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "title": "Estudar Spring Boot",
+  "description": "Módulo REST",
+  "status": "PENDING"
+}</code></pre>
+          <p>
+            Atualização parcial via PATCH — campos omitidos não são alterados:
+          </p>
+          <pre class="project-detail__code"><code>curl -X PATCH http://localhost:8080/tasks/{id} \
+  -H "Content-Type: application/json" \
+  -d '{"status":"IN_PROGRESS"}'</code></pre>
         </article>
 
         <article class="project-detail__card" id="arquitetura">
-          <h2>Como pretendo organizar o código</h2>
+          <h2>Arquitetura em camadas (DDD)</h2>
           <p>
-            A ideia é manter a mesma linha dos exercícios de POO — domínio no centro, infraestrutura
-            trocável — só que exposto por controllers Spring em vez de UI no terminal.
+            Três pacotes principais, com o domínio independente de Spring e HTTP:
           </p>
-          <pre class="project-detail__code"><code>api-rest-java-bootcamp-santander/
-├── src/main/java/.../
-│   ├── domain/           # Task, regras de negócio
-│   ├── application/      # casos de uso / orquestração
-│   ├── infrastructure/   # repositório (memória ou banco)
-│   └── web/              # controllers REST, DTOs, validação
-├── src/main/resources/
-│   └── application.properties
-└── build.gradle.kts      # Spring Boot + dependências</code></pre>
+          <pre class="project-detail__code"><code>dio.taskmanager/
+├── domain/
+│   ├── Task.java              # entidade + regras de update
+│   ├── TaskId.java            # value object (UUID)
+│   ├── TaskStatus.java        # PENDING | IN_PROGRESS | COMPLETED
+│   └── TaskRepository.java    # contrato (interface)
+├── application/
+│   ├── CreateTaskUseCase.java
+│   ├── GetTaskUseCase.java
+│   ├── GetTaskByIdUseCase.java
+│   ├── UpdateTaskUseCase.java
+│   ├── DeleteTaskUseCase.java
+│   └── input/ · output/       # DTOs da camada de aplicação
+└── infrastructure/
+    ├── repository/
+    │   └── InMemoryTaskRepository.java   # HashMap em memória
+    └── http/
+        ├── TaskController.java           # todas as rotas REST
+        ├── GlobalExceptionHandler.java
+        └── request/ · response/          # DTOs HTTP</code></pre>
           <ul class="project-detail__list">
-            <li><strong>Controllers:</strong> recebem HTTP, delegam ao service, devolvem JSON e status adequados</li>
-            <li><strong>Service:</strong> orquestra o domínio — equivalente ao <code>PetShopService</code> do exercício 3</li>
-            <li><strong>Domain:</strong> entidade <code>Task</code> com regras (título, status, prazo, etc.)</li>
-            <li><strong>Infrastructure:</strong> persistência — primeiro em memória ou JPA, conforme o módulo</li>
+            <li><strong>Domain:</strong> <code>Task</code> valida título e encapsula mudança de estado via <code>update()</code></li>
+            <li><strong>Application:</strong> um use case por operação — orquestra domínio + repositório</li>
+            <li><strong>Infrastructure:</strong> implementação concreta do repositório e adaptadores HTTP (request/response DTOs)</li>
+            <li><strong>Controller:</strong> só traduz HTTP ↔ use cases — sem regra de negócio</li>
           </ul>
+        </article>
+
+        <article class="project-detail__card" id="decisoes">
+          <h2>Decisões técnicas</h2>
+
+          <div class="project-detail__decision">
+            <h3>Por que use case em vez de um service monolítico?</h3>
+            <p>
+              Cada operação (criar, listar, buscar, atualizar, deletar) tem uma classe própria anotada com
+              <code>@Service</code>. Isso deixa a intenção explícita, facilita testes isolados com Mockito
+              e espelha o padrão que vi nos exercícios de POO — só que com Spring cuidando da injeção.
+            </p>
+          </div>
+
+          <div class="project-detail__decision">
+            <h3>Dois tipos de DTO — HTTP e application</h3>
+            <p>
+              <code>CreateTaskRequestDTO</code> e <code>UpdateTaskRequest</code> ficam em
+              <code>infrastructure/http</code>; <code>CreateTaskInputDTO</code> e
+              <code>UpdateTaskInputDTO</code> ficam em <code>application/input</code>.
+              O controller converte request → input; o use case nunca depende de anotações web.
+            </p>
+          </div>
+
+          <div class="project-detail__decision">
+            <h3>Repositório em memória com HashMap</h3>
+            <p>
+              <code>InMemoryTaskRepository</code> implementa <code>TaskRepository</code> com
+              <code>Map&lt;TaskId, Task&gt;</code>. Mesma abordagem do exercício 3 do bootcamp POO —
+              trocar a implementação depois (JPA, JDBC) sem alterar os use cases.
+            </p>
+          </div>
+
+          <div class="project-detail__decision">
+            <h3>TaskId como value object</h3>
+            <p>
+              <code>TaskId</code> é um <code>record</code> que encapsula <code>UUID</code> e gera id
+              automaticamente no construtor vazio. O domínio não expõe UUID cru — a infraestrutura
+              converte na borda do controller.
+            </p>
+          </div>
+        </article>
+
+        <article class="project-detail__card" id="testes">
+          <h2>Testes</h2>
+          <p>
+            Cobertura focada em regras e persistência em memória, sem subir o contexto Spring inteiro
+            nos testes unitários principais:
+          </p>
+          <ul class="project-detail__list">
+            <li><strong>CreateTaskUseCaseTest</strong> — valida campos do output (título, descrição, status <code>PENDING</code>, id gerado)</li>
+            <li><strong>InMemoryTaskRepositoryTest</strong> — save, findAll, findById e delete no HashMap</li>
+            <li><strong>TaskmanagerApplicationTests</strong> — smoke test de contexto Spring Boot</li>
+          </ul>
+          <pre class="project-detail__code"><code>./gradlew test</code></pre>
         </article>
 
         <article class="project-detail__card" id="stack">
-          <h2>Stack prevista</h2>
+          <h2>Stack</h2>
           <ul class="project-detail__list">
-            <li><strong>Java 17+</strong> e <strong>Gradle</strong></li>
-            <li><strong>Spring Boot</strong> — starter web, embedded Tomcat, DI</li>
-            <li><strong>Spring Web</strong> — <code>@RestController</code>, <code>@GetMapping</code>, <code>@PostMapping</code>, etc.</li>
-            <li><strong>Bean Validation</strong> — <code>@NotBlank</code>, <code>@Valid</code> nos DTOs de entrada</li>
-            <li><strong>Documentação</strong> — SpringDoc / OpenAPI quando chegar no módulo correspondente</li>
+            <li><strong>Java 25</strong> + <strong>Gradle</strong></li>
+            <li><strong>Spring Boot 4.1</strong> — starter web, embedded Tomcat, DI</li>
+            <li><strong>Lombok</strong> — getters/setters na entidade <code>Task</code></li>
+            <li><strong>JUnit 5 + Mockito + AssertJ</strong> — testes unitários</li>
+            <li><strong>Sem banco</strong> — persistência em memória apenas</li>
           </ul>
           <p>
-            Depois desta base REST, o bootcamp continua com Spring Data, Security e OpenFeign —
-            este repositório foca primeiro no núcleo da API de tarefas.
+            Próximos passos na trilha do bootcamp: Bean Validation, OpenAPI/Swagger, Spring Data JPA
+            e Security — este repositório cobre o núcleo REST + camadas.
           </p>
-        </article>
-
-        <article class="project-detail__card" id="proximos-passos">
-          <h2>Próximos passos</h2>
-          <ul class="project-detail__list">
-            <li><strong>Inicializar o projeto Spring Boot</strong> com Gradle e dependência web</li>
-            <li><strong>Modelar <code>Task</code></strong> e o service de gerenciamento</li>
-            <li><strong>Expor os primeiros endpoints</strong> — criação e listagem</li>
-            <li><strong>Atualizar esta página</strong> com decisões técnicas e exemplos de request/response</li>
-          </ul>
         </article>
 
         <article class="project-detail__card">
           <h2>Relação com os outros projetos do bootcamp</h2>
           <p>
-            Os exercícios de <a href="bootcamp-santander-dio.html">POO no terminal</a> treinaram encapsulamento,
-            interfaces e camadas. O <a href="jdbc-sample.html">JDBC Sample</a> mostrou persistência manual
-            e SQL no Postgres. Esta API REST junta exposição HTTP (Spring) com organização em camadas —
-            o passo natural antes de Spring Data JPA e segurança na trilha.
+            Os exercícios de <a href="bootcamp-santander-dio.html">POO no terminal</a> introduziram
+            domínio, interface de repositório e service. O <a href="jdbc-sample.html">JDBC Sample</a>
+            mostrou persistência real com SQL. Este Task Manager junta HTTP (Spring) com a mesma
+            organização em camadas — passo natural antes de trocar o HashMap por Postgres ou JPA.
           </p>
         </article>
 
         <article class="project-detail__card project-detail__card--cta">
           <h2>Código no GitHub</h2>
           <p>
-            Repositório reservado para o projeto da trilha REST. Ainda sem implementação;
-            o README e os commits vão crescer conforme os módulos forem concluídos.
+            Repositório completo com CRUD funcional, testes e estrutura DDD documentada acima.
+            Projeto local — sem deploy; a demonstração é pelo código, pelos testes e pelos requests HTTP.
           </p>
           <a href="https://github.com/eduardocintrasantos/api-rest-java-bootcamp-santander" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
             Abrir repositório no GitHub
